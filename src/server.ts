@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { app } from '@/app'
 
 import { AppDataSource } from '@/infra/database/typeorm/data-source'

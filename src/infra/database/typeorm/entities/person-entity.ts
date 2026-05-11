@@ -2,31 +2,31 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity('people')
 export class PersonEntity {
-    @PrimaryColumn()
+    @PrimaryColumn({ type: 'uuid' })
     id!: string
 
-    @Column()
+    @Column({type: 'varchar', length: 100})
     name!: string
 
-    @Column({ unique: true })
+    @Column({ unique: true, type: 'varchar' })
     email!: string
 
-    @Column({ unique: true })
+    @Column({ unique: true, type: 'varchar', length: 11 })
     cpf!: string
 
-    @Column({ unique: true })
+    @Column({ unique: true, type: 'varchar' })
     phone!: string
 
-    @Column()
+    @Column({type: 'varchar'})
     address!: string
 
-    @Column()
+    @Column({type: 'varchar', nullable: true})
     gender?: string
 
-    @Column()
+    @Column({type: 'varchar', nullable: true})
     profession?: string
 
-    @Column()
+    @Column({type: 'varchar', nullable: true})
     education?: string
 
 
