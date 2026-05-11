@@ -1,8 +1,15 @@
-
 import { app } from '@/app'
 
-const PORT = 3333
+import { AppDataSource } from '@/infra/database/typeorm/data-source'
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Database connected')
+
+    app.listen(3333, () => {
+      console.log('Server running on port 3333')
+    })
+  })
+  .catch((error) => {
+    console.error(error)
+  })
