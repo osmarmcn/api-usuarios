@@ -1,4 +1,5 @@
-import { Person } from "../use-cases/person";
+import { Person } from "../entities/person"
+
 
 export interface IPersonRepository {
 
