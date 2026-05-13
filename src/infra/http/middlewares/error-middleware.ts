@@ -4,6 +4,8 @@ import {
   Response,
 } from 'express'
 
+import { z,ZodError } from 'zod'
+
 import { AppError } from '@/core/errors/app-error'
 
 export function errorMiddleware(
@@ -12,6 +14,13 @@ export function errorMiddleware(
   response: Response,
   next: NextFunction,
 ) {
+  if (error instanceof ZodError) {
+    return response.status(400).json({
+      message: 'Validation error',
+      issues: z.treeifyError(error)
+    })
+  }
+
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
       message: error.message,

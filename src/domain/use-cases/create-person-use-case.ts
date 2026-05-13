@@ -49,9 +49,9 @@ export class CreatePersonUseCase {
             data.cpf,
             data.phone,
             data.address,
-            data.gender,
-            data.profession,
-            data.education,
+            data.gender ?? '',
+            data.profession ?? '',
+            data.education ?? ''
         )
 
         const createdPerson = await this.personRepository.create(person)
