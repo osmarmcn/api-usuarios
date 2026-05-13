@@ -12,98 +12,44 @@ export class PersonRepository implements IPersonRepository {
     this.repository = AppDataSource.getRepository(PersonEntity)
   }
 
-  async create(person: Person): Promise<Person> {
-    const personEntity = this.repository.create({
-      id: person.id,
-      name: person.name,
-      email: person.email,
-      cpf: person.cpf,
-      phone: person.phone,
-      address: person.address,
-      gender: person.gender,
-      profession: person.profession,
-      education: person.education,
-    })
-
-    const savedPerson = await this.repository.save(personEntity)
-
+  private toDomain(entity: PersonEntity): Person {
     return new Person(
-      savedPerson.id,
-      savedPerson.name,
-      savedPerson.email,
-      savedPerson.cpf,
-      savedPerson.phone,
-      savedPerson.address,
-      savedPerson.gender,
-      savedPerson.profession,
-      savedPerson.education,
+      entity.id,
+      entity.name,
+      entity.email,
+      entity.cpf,
+      entity.phone,
+      entity.address,
+      entity.gender ?? '',
+      entity.profession ?? '',
+      entity.education ?? '',
     )
+  }
+
+  async create(person: Person): Promise<Person> {
+    const personEntity = this.repository.create(person); // O TypeORM aceita o objeto direto se as chaves forem iguais
+    const savedPerson = await this.repository.save(personEntity);
+    return this.toDomain(savedPerson);
   }
 
   async findByEmail(email: string): Promise<Person | null> {
-    const person = await this.repository.findOne({
-      where: { email },
-    })
-
-    if (!person) {
-      return null
-    }
-
-    return new Person(
-      person.id,
-      person.name,
-      person.email,
-      person.cpf,
-      person.phone,
-      person.address,
-      person.gender,
-      person.profession,
-      person.education,
-    )
+    const person = await this.repository.findOne({ where: { email } });
+    return person ? this.toDomain(person) : null;
   }
 
   async findByCpf(cpf: string): Promise<Person | null> {
-    const person = await this.repository.findOne({
-      where: { cpf },
-    })
-
-    if (!person) {
-      return null
-    }
-
-    return new Person(
-      person.id,
-      person.name,
-      person.email,
-      person.cpf,
-      person.phone,
-      person.address,
-      person.gender,
-      person.profession,
-      person.education,
-    )
+    const person = await this.repository.findOne({ where: { cpf } });
+    return person ? this.toDomain(person) : null;
   }
 
   async findByPhone(phone: string): Promise<Person | null> {
-    const person = await this.repository.findOne({
-      where: { phone },
-    })
+    const person = await this.repository.findOne({ where: { phone } });
+    return person ? this.toDomain(person) : null;
+  }
 
-    if (!person) {
-      return null
-    }
-
-    return new Person(
-        person.id,
-        person.name,
-        person.email,    
-        person.cpf,
-        person.phone,    
-        person.address,
-        person.gender,    
-        person.profession,
-        person.education,
-    )
+  async findAll(): Promise<Person[]> {
+    const people = await this.repository.find();
+    return people.map(person => this.toDomain(person));
   }
 }
 
