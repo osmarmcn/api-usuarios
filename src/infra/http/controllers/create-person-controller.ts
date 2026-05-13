@@ -7,33 +7,39 @@ import { CreatePersonUseCase } from '@/domain/use-cases/create-person-use-case'
 
 export class CreatePersonController {
   async handle(request: Request, response: Response) {
-    const {
-      name,
-      email,
-      cpf,
-      phone,
-      address,
-      gender,
-      profession,
-      education,
-    } = request.body
 
-    const personRepository = new PersonRepository()
+   try { 
+        const {
+          name,
+          email,
+          cpf,
+          phone,
+          address,
+          gender,
+          profession,
+          education,
+        } = request.body
 
-    const createPersonUseCase =
-      new CreatePersonUseCase(personRepository)
+        const personRepository = new PersonRepository()
 
-    const person = await createPersonUseCase.execute({
-      name,
-      email,
-      cpf,
-      phone,
-      address,
-      gender,
-      profession,
-      education,
-    })
+        const createPersonUseCase =
+          new CreatePersonUseCase(personRepository)
 
-    return response.status(201).json(person)
+        const person = await createPersonUseCase.execute({
+          name,
+          email,
+          cpf,
+          phone,
+          address,
+          gender,
+          profession,
+          education,
+        })
+
+        return response.status(201).json(person)
+    } catch (error) {
+      
+      throw error
+    }
   }
 }
