@@ -8,4 +8,6 @@ export interface IPersonRepository {
     findByEmail(email: string): Promise<Person | null>
     findByCpf(cpf: string): Promise<Person | null>
     findByPhone(phone: string): Promise<Person | null>
+
+    findAll(): Promise<Person[]>
 }
