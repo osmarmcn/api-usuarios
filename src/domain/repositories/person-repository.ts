@@ -10,4 +10,5 @@ export interface IPersonRepository {
     findByPhone(phone: string): Promise<Person | null>
 
     findAll(): Promise<Person[]>
+    findById(id: string): Promise<Person | null>
 }

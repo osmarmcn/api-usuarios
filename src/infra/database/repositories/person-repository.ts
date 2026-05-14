@@ -27,29 +27,34 @@ export class PersonRepository implements IPersonRepository {
   }
 
   async create(person: Person): Promise<Person> {
-    const personEntity = this.repository.create(person); // O TypeORM aceita o objeto direto se as chaves forem iguais
-    const savedPerson = await this.repository.save(personEntity);
-    return this.toDomain(savedPerson);
+    const personEntity = this.repository.create(person);
+    const savedPerson = await this.repository.save(personEntity)
+    return this.toDomain(savedPerson)
   }
 
   async findByEmail(email: string): Promise<Person | null> {
-    const person = await this.repository.findOne({ where: { email } });
-    return person ? this.toDomain(person) : null;
+    const person = await this.repository.findOne({ where: { email } })
+    return person ? this.toDomain(person) : null
   }
 
   async findByCpf(cpf: string): Promise<Person | null> {
-    const person = await this.repository.findOne({ where: { cpf } });
-    return person ? this.toDomain(person) : null;
+    const person = await this.repository.findOne({ where: { cpf } })
+    return person ? this.toDomain(person) : null
   }
 
   async findByPhone(phone: string): Promise<Person | null> {
-    const person = await this.repository.findOne({ where: { phone } });
-    return person ? this.toDomain(person) : null;
+    const person = await this.repository.findOne({ where: { phone } })
+    return person ? this.toDomain(person) : null
   }
 
   async findAll(): Promise<Person[]> {
     const people = await this.repository.find();
-    return people.map(person => this.toDomain(person));
+    return people.map(person => this.toDomain(person))
+  }
+
+  async findById(id: string): Promise<Person | null> {
+    const person = await this.repository.findOne({ where: { id } })
+    return person ? this.toDomain(person) : null
   }
 }
 
