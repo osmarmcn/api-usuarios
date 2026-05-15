@@ -2,6 +2,6 @@ import 'dotenv/config'
 
 
 export const env = {
-    PORT: Number(process.env) || 3333,
+    PORT: Number(process.env.PORT) || 3333,
     DATABASE_URL: process.env.DATABASE_URL ?? '',
 }

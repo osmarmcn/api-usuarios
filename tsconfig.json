@@ -17,6 +17,7 @@
       "@/*": ["./src/*"]
     },
 
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   }
 }
