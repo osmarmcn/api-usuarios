@@ -6,7 +6,7 @@ export class Person {
         public readonly id: string,
         public name: string,
         public email: string,
-        public cpf: string,
+        public readonly cpf: string,
         public phone: string,
         public address: string,
         public gender?: string,

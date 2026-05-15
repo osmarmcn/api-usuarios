@@ -56,6 +56,14 @@ export class PersonRepository implements IPersonRepository {
     const person = await this.repository.findOne({ where: { id } })
     return person ? this.toDomain(person) : null
   }
+
+  async save(person: Person): Promise<Person> {
+    const savedPerson = await this.repository.save(person)
+    return this.toDomain(savedPerson)
+  }
+
 }
+
+
 
 

@@ -11,4 +11,5 @@ export interface IPersonRepository {
 
     findAll(): Promise<Person[]>
     findById(id: string): Promise<Person | null>
+    save(person: Person): Promise<Person>
 }
