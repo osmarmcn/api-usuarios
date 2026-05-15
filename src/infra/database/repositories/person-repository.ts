@@ -62,6 +62,10 @@ export class PersonRepository implements IPersonRepository {
     return this.toDomain(savedPerson)
   }
 
+  async delete(id: string): Promise<void> {
+    await this.repository.delete({ id })
+  }
+
 }
 
 
