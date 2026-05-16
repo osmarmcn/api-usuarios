@@ -4,7 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
 
-    "rootDir": "./src",
+    //"rootDir": "./src",
     "outDir": "./dist",
 
     "strict": true,
@@ -13,11 +13,14 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
+    "baseUrl": ".",
+
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
 
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node"],
+     "ignoreDeprecations": "6.0"
   }
 }

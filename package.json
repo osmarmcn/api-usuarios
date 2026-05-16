@@ -7,7 +7,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsup src",
     "start": "node dist/server.js",
-    "typeorm": "node --require ts-node/register --require tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "node --require ts-node/register --require tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -28,7 +29,9 @@
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typeorm-ts-node-commonjs": "^0.3.20",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.6"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
