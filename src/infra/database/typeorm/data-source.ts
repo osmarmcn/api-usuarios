@@ -1,11 +1,10 @@
-
-
-
 import { env } from '@/shared/env'
 import { DataSource } from 'typeorm'
+import { PersonEntity } from './entities/person-entity' 
+
+const isTestEnv = process.env.NODE_ENV === 'test'
 
 export const AppDataSource = new DataSource({
-
     type: 'postgres',
     url: env.DATABASE_URL,
     synchronize: false,
@@ -13,7 +12,7 @@ export const AppDataSource = new DataSource({
     ssl: {
         rejectUnauthorized: false 
     },
-    entities: ['src/infra/database/typeorm/entities/*.ts'],
-    migrations: ['src/infra/database/typeorm/migrations/*.ts']
+    // PASSE A CLASSE DIRETAMENTE AQUI:
+    entities: [PersonEntity], 
+    migrations: isTestEnv ? [] : ['src/infra/database/typeorm/migrations/*.ts']
 })
-

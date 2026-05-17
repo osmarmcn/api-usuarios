@@ -2,7 +2,7 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 
 import { CreatePersonUseCase } from '@/domain/use-cases/create-person-use-case'
-import { InMemoryPersonRepository } from '@/test/repositories/in-memory-person-repository'
+import { InMemoryPersonRepository } from '@/tests/repositories/in-memory-person-repository'
 
 
 let repository: InMemoryPersonRepository

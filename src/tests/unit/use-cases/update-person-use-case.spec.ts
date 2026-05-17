@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { Person } from '@/domain/entities/person'
-import { InMemoryPersonRepository } from '@/test/repositories/in-memory-person-repository'
+import { InMemoryPersonRepository } from '@/tests/repositories/in-memory-person-repository'
 import { UpdatePersonUseCase } from '@/domain/use-cases/updatePersonUseCase'
 
 

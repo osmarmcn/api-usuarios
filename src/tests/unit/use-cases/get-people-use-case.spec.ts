@@ -3,7 +3,7 @@
 import { Person } from '@/domain/entities/person'
 
 import { GetPeopleUseCase } from '@/domain/use-cases/getPeopleUseCase'
-import { InMemoryPersonRepository } from '@/test/repositories/in-memory-person-repository'
+import { InMemoryPersonRepository } from '@/tests/repositories/in-memory-person-repository'
 
 
 

@@ -1,26 +1,23 @@
+
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Person } from '@/domain/entities/person'
-import { GetPersonByIdUseCase } from '@/domain/use-cases/getPersonByIdUseCase'
-import { InMemoryPersonRepository } from '@/test/repositories/in-memory-person-repository'
+import { DeletePersonUseCase } from '@/domain/use-cases/deletePersonUseCase'
+import { InMemoryPersonRepository } from '@/tests/repositories/in-memory-person-repository'
 
 
-import {
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from 'vitest'
 
 let repository: InMemoryPersonRepository
-let sut: GetPersonByIdUseCase
+let sut: DeletePersonUseCase
 
-describe('Get Person By Id Use Case', () => {
+describe('Delete Person Use Case', () => {
   beforeEach(() => {
     repository = new InMemoryPersonRepository()
 
-    sut = new GetPersonByIdUseCase(repository)
+    sut = new DeletePersonUseCase(repository)
   })
 
-  it('should be able get person by id', async () => {
+  it('should be able delete a person', async () => {
     const createdPerson =
       await repository.create(
         new Person(
@@ -36,16 +33,16 @@ describe('Get Person By Id Use Case', () => {
         ),
       )
 
-    const person = await sut.execute({
+    await sut.execute({
       id: createdPerson.id,
     })
 
-    expect(person.id).toEqual(
-      createdPerson.id,
-    )
+    const people = await repository.findAll()
+
+    expect(people).toHaveLength(0)
   })
 
-  it('should not find nonexistent person', async () => {
+  it('should not delete nonexistent person', async () => {
     await expect(() =>
       sut.execute({
         id: 'nonexistent-id',
