@@ -1,11 +1,8 @@
-
 import request from 'supertest'
-
-import {beforeAll,describe,expect,it} from 'vitest'
-
+import { beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/app'
-
 import { AppDataSource } from '@/infra/database/typeorm/data-source'
+import { PersonEntity } from '@/infra/database/typeorm/entities/person-entity'
 
 describe('Delete Person E2E', () => {
   beforeAll(async () => {
@@ -15,22 +12,35 @@ describe('Delete Person E2E', () => {
   })
 
   it('should delete person', async () => {
-    const createdPerson =
-      await request(app)
-        .post('/people')
-        .send({
-          name: 'João',
-          email: 'joao@email.com',
-          cpf: '12345678900',
-          phone: '85999999999',
-          address: 'Rua A',
-        })
+   
+    await request(app)
+      .post('/people')
+      .send({
+        name: 'João Delete',
+        email: 'joao.delete@email.com',
+        cpf: '12345678933',
+        phone: '85999999933',
+        address: 'Rua C',
+        gender: 'male',
+        profession: 'developer',
+        education: 'college'
+      })
 
-    const response =
-      await request(app)
-        .delete(`/people/${createdPerson.body.id}`)
+   
+    const personRepository = AppDataSource.getRepository(PersonEntity)
+    const personInDb = await personRepository.findOneBy({ email: 'joao.delete@email.com' })
+    
+    expect(personInDb).toBeTruthy()
+    const targetId = personInDb!.id
 
-    expect(response.statusCode)
-      .toEqual(204)
+    
+    const response = await request(app)
+      .delete(`/people/${targetId}`)
+
+    expect(response.statusCode).toEqual(204)
+
+    
+    const checkDeleted = await personRepository.findOneBy({ id: targetId })
+    expect(checkDeleted).toBeNull()
   })
 })
