@@ -87,5 +87,51 @@ npx vitest
 - O `Vitest` valida as saídas (Status Codes e o corpo da resposta).
 - **Importante:** No teste de criação, o banco de dados é limpo antes da execução (`TRUNCATE`) para garantir a confiabilidade (isolamento) do teste, prevenindo conflitos com dados anteriores.
 
+### Como passar os dados (Testando Manualmente)
+
+Caso você queira testar a API manualmente usando ferramentas como **Postman**, **Insomnia** ou no próprio frontend, certifique-se de passar os dados no formato `JSON`. 
+
+O Zod fará a validação baseada no seguinte formato. Para **criar um cliente** (`POST /people`), o corpo da requisição (`body`) deve ser exatamente assim:
+
+```json
+{
+  "name": "Osmar Mendes",         // Obrigatório (Mínimo de 3 caracteres)
+  "email": "osmar@email.com",     // Obrigatório (Formato de e-mail válido)
+  "cpf": "12345678900",           // Obrigatório (Exatamente 11 caracteres)
+  "phone": "85999999999",         // Obrigatório (Mínimo de 10 caracteres)
+  "address": "Rua Exemplo, 123",  // Obrigatório
+  "gender": "male",               // Opcional
+  "profession": "Developer",      // Opcional
+  "education": "Superior Completo"// Opcional
+}
+```
+
+Para **atualizar um cliente** (`PATCH /people/:id`), você pode enviar apenas os campos que deseja alterar, pois a rota aceita atualizações parciais. Por exemplo, para atualizar apenas o telefone:
+
+```json
+{
+  "phone": "11988887777"
+}
+```
+
+### Tratamento de Erros e Regras de Negócio
+
+A API possui validações rigorosas tanto no formato dos dados quanto nas regras de negócio. Caso você envie dados incorretos ou tente burlar alguma regra, a API retornará os seguintes erros:
+
+- **Erro 400 (Bad Request) - Erro de Validação:** 
+  Ocorre quando você envia um dado no formato errado. Exemplo: um CPF com letras, um e-mail sem `@`, ou esquecer de enviar um campo obrigatório. A API retornará uma mensagem detalhando exatamente qual campo falhou na validação.
+
+- **Erro 409 (Conflict) - Dados Duplicados:** 
+  Na nossa regra de negócio, **não é permitido cadastrar mais de uma pessoa com o mesmo E-mail, CPF ou Telefone**. Caso você tente enviar dados repetidos que já existem no banco de dados, a API vai barrar a criação e retornará um erro `409 Conflict` com uma mensagem clara:
+  - `"Email already exists"` (E-mail já cadastrado)
+  - `"CPF already exists"` (CPF já cadastrado)
+  - `"Phone already exists"` (Telefone já cadastrado)
+
+- **Erro 404 (Not Found) - Cliente Não Encontrado:**
+  Ocorre ao tentar buscar, atualizar ou deletar um cliente passando um ID na URL (`/people/:id`) que não existe no banco de dados.
+
+- **Erro 500 (Internal Server Error):**
+  Ocorre caso haja alguma falha inesperada no servidor ou no banco de dados.
+
 ---
 *Projeto desenvolvido por Osmar Mendes.*
